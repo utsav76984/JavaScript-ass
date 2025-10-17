@@ -1,0 +1,50 @@
+ <>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+
+            width: 100%;
+            height: 100vh;
+            background-color: black;
+            margin: 0px;
+            background-size: cover;
+            background-position: right;
+            background-blend-mode: overlay;
+            background-attachment: fixed;
+            padding-top: 200px;
+            align-items: center;
+            
+        }
+
+        .pro{
+
+            background-color: rgb(138, 130, 122);
+        } 
+        /* .btn {
+            padding: 9px 17px;
+            border-radius: 14px;
+            border: none;
+            background-color:#dd8d32;
+            color: #1ee2e6;
+            font-size: 17px;
+            cursor: pointer
+        }  */
+
+        input {
+            width: 70%;
+            padding: 10px;
+            border-radius: 7px;
+            border: none;
+            outline: none;
+
+        }
+
+        #grossSalary h1 {
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+        }
