@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Records Manager</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            border: 2px solid black;  
+        }
+
+        th, td {
+            border: 1px solid black; 
+            padding: 8px;
+        }
+
+        input {
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2> Movie Records Manager</h2>
+
+<form id="movieForm">
+    <input type="hidden" id="editIndex" value="-1">
+
+    <input type="text" id="title" placeholder="Movie Title" required><br>
+    <input type="text" id="genre" placeholder="Genre" required><br>
+    <input type="number" id="rating" placeholder="Rating (1-10)" min="1" max="10" step="0.1" required><br>
+    <input type="number" id="year" placeholder="Year" min="1000" max="9999" required><br>
+
+    <button type="submit">Save Movie</button>
+</form>
+
+<br><br>
+
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Rating</th>
+            <th>Year</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="movieTable"></tbody>
+</table>
+
+<br>
+
+<p id="titlesOutput">Movie Titles Will Appear Here</p>
+
+<script>
+    let movies = [];
+
+    document.getElementById("movieForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        let title = document.getElementById("title").value;
+        let genre = document.getElementById("genre").value;
+        let rating = Number(document.getElementById("rating").value);
+        let year = Number(document.getElementById("year").value);
+        let editIndex = document.getElementById("editIndex").value;
+
+        if (rating < 1 || rating > 10) {
+            alert("Rating must be between 1 and 10");
+            return;
+        }
+
+        let movie = { title, genre, rating, year };
+
+        if (editIndex == -1) {
+            movies.push(movie);
+        } else {
+            movies[editIndex] = movie;
+            document.getElementById("editIndex").value = -1;
+        }
+
+        this.reset();
+        displayMovies();
+    });
+
+    function displayMovies() {
+        let table = document.getElementById("movieTable");
+        let output = document.getElementById("titlesOutput");
+
+        table.innerHTML = "";
+
+        movies.forEach(function (movie, index) {
+            table.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${movie.title}</td>
+                    <td>${movie.genre}</td>
+                    <td>${movie.rating}</td>
+                    <td>${movie.year}</td>
+                    <td>
+                        <button onclick="editMovie(${index})">Edit</button>
+                        <button onclick="deleteMovie(${index})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        let titles = movies.map(m => m.title);
+        output.innerText = titles.length
+            ? "Movie Titles: " + titles.join(", ")
+            : "Movie Titles Will Appear Here";
+    }
+
+    function editMovie(index) {
+        let movie = movies[index];
+        document.getElementById("title").value = movie.title;
+        document.getElementById("genre").value = movie.genre;
+        document.getElementById("rating").value = movie.rating;
+        document.getElementById("year").value = movie.year;
+        document.getElementById("editIndex").value = index;
+    }
+
+    function deleteMovie(index) {
+        movies.splice(index, 1);
+        displayMovies();
+    }
+</script>
+
+</body>
+</html>
